@@ -1,4 +1,4 @@
 # algorithm
-<br/>Baekjoon
+Baekjoon
 <br/>Programmers
 <br/>LeetCode
