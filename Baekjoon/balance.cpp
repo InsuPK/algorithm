@@ -1,53 +1,55 @@
 #include <iostream>
 #include <stack>
 #include <string>
-
+ 
 using namespace std;
 
 int main() {
+    string s;
+    bool balance = true;
 
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    while (getline(cin, s)) {
+        stack<char> b;
+        balance = true;
 
-    while (true) {
-
-        string str;
-
-        getline(cin, str);
-        
-        if (str == ".")
+        if (s == ".")
             break;
-        
-        stack<char> s;
 
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
 
-            if (str[i] == '(' || str[i] == '[') {
-                s.push(str[i]);
-            }
-            else if (str[i] == ')') {
-                if (!s.empty() && s.top() == '(') {
-                    s.pop();
+            if (s[i] == ')') {
+                if (b.empty() || b.top() != '(') {
+                    cout << "no\n";
+                    balance = false;
+                    break;
                 }
                 else {
-                    s.push(str[i]);
+                    b.pop();
                 }
             }
-            else if (str[i] == ']') {
-                if (!s.empty() && s.top() == '[') {
-                    s.pop();
+
+            if (s[i] == ']') {
+                if (b.empty() || b.top() != '[') {
+                    cout << "no\n";
+                    balance = false;
+                    break;
                 }
                 else {
-                    s.push(str[i]);
+                    b.pop();
                 }
+            }
+
+            if (s[i] == '(' || s[i] == '[') {
+                b.push(s[i]);
             }
         }
 
-        if (s.empty())
-            cout << "yes" << "\n";
-        else
-            cout << "no" << "\n";
-        
+        if (balance != false) {
+            if (b.empty())
+                cout << "yes\n";
+            else
+                cout << "no\n";
+        }
     }
 
     return 0;

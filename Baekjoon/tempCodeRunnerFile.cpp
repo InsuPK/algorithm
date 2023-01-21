@@ -1,4 +1,2 @@
-if (s[i] >= 'a' && s[i] <= 'z')
-        //     alphabet[(s[i] - 'a') - 65]++;
-        // else
-        //     alphabet[s[i] - 65]++;
+if (s[i] == '(' || s[i] == '[')
+                b.push(s[i]);
