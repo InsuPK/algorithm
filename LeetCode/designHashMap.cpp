@@ -6,7 +6,7 @@ using namespace std;
 class MyHashMap {
     vector<vector<pair<int, int>>> map;
     const int size = 10000;
-
+    
     public:
     MyHashMap() {
         map.resize(size);

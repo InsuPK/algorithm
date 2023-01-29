@@ -1,77 +1,81 @@
 #include <iostream>
-#include <climits>
-//#include <bits/stdc++.h>
+#define size (100000)
 
 using namespace std;
 
-int maximum[100001] = {0, };
+struct Heap {
+    int data[size];
+    int heapSize;
+
+    Heap() {
+        heapSize = 0;
+    }
+};
+
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+bool empty(Heap *h) {
+    return (h->heapSize == 0) ? true : false;
+}
+
+void push(Heap *h, int data) {
+    h->data[++h->heapSize] = data;
+    
+    int child = h->heapSize;
+    int parent = child / 2;
+
+    while (child > 1 && h->data[child] > h->data[parent]) {
+        swap(h->data[child], h->data[parent]);
+        child = parent;
+        parent = child / 2;
+    }
+}
+
+int pop(Heap *h) {
+    if (empty(h)) return 0;
+
+    int num = h->data[1];
+    
+    swap(h->data[1], h->data[h->heapSize]);
+    h->heapSize--;
+
+    int parent = 1;
+    int child = parent * 2;
+
+    if (child + 1 <= h->heapSize && h->data[child] < h->data[child+1])
+        child++;
+
+    while (child <= h->heapSize && h->data[child] > h->data[parent]) {
+        swap(h->data[parent], h->data[child]);
+        parent = child;
+        child = parent * 2;
+
+        if (child + 1 <= h->heapSize && h->data[child] < h->data[child+1])
+            child++;
+    }
+
+    return num;
+}
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    int n , num;
-    int front = -1;
-    int rear = -1;
-    int max = INT_MIN;
-    int size = 0;
-
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    
+    Heap *h = new Heap();
+    int n;
+    int x;
     cin >> n;
 
-    for (int i = 0; i < n; i++){
-        cin >> num;
-
-        if (num == 0) {
-            
-            //if empty, print 0
-            if (front == -1) {
-                cout << 0 << "\n";
-            } 
-            else {
-                //deque
-                cout << maximum[front] << "\n";
-                //resetting front, rear;
-                if (front == rear) {
-                    front = -1;
-                    rear = -1;
-                }
-                else {
-                    front = (front + 1) % size;
-                }
-            }
-            
-        }
-        else {
-            //enque
-            size++;
-            if (front == -1) front = 0;
-            
-            if (num > max) {
-                max = num;
-                //cout << max << endl;
-                //배열값이 비어있지 않거나 하나 이상이면 rear+1 % 100001값에 max값을 넣어주고 front를 rear위치로 바꿔준다. 이제 max index가 front가 된다.
-                if (rear >= 0) {
-                    //cout << "rear%: " << (rear+1) % 100001 << endl;
-                    maximum[(rear+1) % size] = num;
-                    //cout << "max rear: " << front << endl;
-                    front = (rear+1) % size;
-                    //cout << "front: " << front << endl;
-                }
-                //배열값이 비어있거나 하나 밖에 없으면 그냥 enque
-                else {
-                    rear = (rear+1) % size;
-                    maximum[rear] = num;
-                }
-            }
-            else {
-                rear = (rear+1) % size;
-                maximum[rear] = num;
-            }
-
-        }
-        //cout << "front: " << front << endl;
-        //cout << "rear: " << rear << endl;
-
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        if (x == 0)
+            cout << pop(h) << "\n";
+        else
+            push(h, x);
     }
 
     return 0;
