@@ -61,5 +61,3 @@ for i in range(n):
 
 print(graph)
 print(result)
-
-
