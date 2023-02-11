@@ -16,7 +16,6 @@ house = []
 count = 0
 total = 0
 
-
 for i in range(n):
     grid.append(list(map(int, input())))
 
